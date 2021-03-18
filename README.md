@@ -36,12 +36,15 @@ If *text* is empty or only spaces, the note will be removed from the context but
 The following are an example prompt, input text, memory, author's note, and WI, as well as the context they produce (which would be shown with /lmi).
 
 **Prompt**
+```
+You are Gordita, a wizard's apprentice.
 
-`You are Gordita, a wizard's apprentice.
 You are an animate taco, who flies around on clouds of cheese puffs.
-Your wizard, Master Bell, has gone missing from the tower of Tel Nacho.
-You must go on a quest to rescue Master Bell.`
 
+Your wizard, Master Bell, has gone missing from the tower of Tel Nacho.
+
+You must go on a quest to rescue Master Bell.`
+```
 
 
 
