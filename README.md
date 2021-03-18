@@ -7,6 +7,7 @@ Notes can be placed anywhere (input text, memory, author's note, WI), but always
 Notes must be enclosed with curly brackets `{ }`
 
 A format code is then placed directly inside the brackets, followed by a number that indicated how many lines back in the context the note will be placed, and a colon. Here are the currently available format codes and the formatting they produce (where *text* represents where the main text of your note will be placed):
-`an#:` produces **[Author's note:***text*, `en` (editor's note formatting), `ens` (editor's note formatting - "this scene" variant). If no format code is included, the note will be left unformatted.
+
+`an#:` produces __[Author's note:__*text*, `en` (editor's note formatting), `ens` (editor's note formatting - "this scene" variant). If no format code is included, the note will be left unformatted.
 
 
