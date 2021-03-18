@@ -38,11 +38,8 @@ The following are an example prompt, input text, memory, author's note, and WI, 
 **Prompt**
 ```
 You are Gordita, a wizard's apprentice.
-
 You are an animate taco, who flies around on clouds of cheese puffs.
-
 Your wizard, Master Bell, has gone missing from the tower of Tel Nacho.
-
 You must go on a quest to rescue Master Bell.`
 ```
 
