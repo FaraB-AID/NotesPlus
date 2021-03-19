@@ -9,7 +9,7 @@ The easiest way to install this script is to download the zip file, then upload 
 You can also copy the text from `shared` to the `shared` tab of scripts, and so on for `inputModifier` and `contextModifier`. 
 
 ## How to Create a Note
-Notes can be placed anywhere (prompt, input text, memory, author's note, WI), but always follow the following pattern:
+Notes can be placed anywhere (prompt, input text, memory, author's note, WI), but must have the following pattern:
 
 Notes must be enclosed with curly brackets `{ }`
 Put a note code on the left side of the brackets, constructed as such:
