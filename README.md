@@ -86,4 +86,6 @@ You cautiously look around the tower.
 [Editor's note: this scene:< Fluffles will leap from the shadows and attack you>.]
 ```
 
-
+## Editor's Notes
+Editor's notes are basically super focused Author's notes that can be used to narrowly focus the AI's attention. For a more detailed rundown on how to use them, see the google doc about them here:
+https://docs.google.com/document/d/12HDSN4wm9hMF4nRGWtkuT_RUkwx2Gqr2qhNSOORbSMk/edit?usp=sharing
