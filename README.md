@@ -3,6 +3,11 @@ This script allows you to create custom blocks of text (notes) anywhere, and spe
 
 **Note++** also adds a single command, `/lmi` which when submitted shows you the last full input sent to the AI (including the hidden text within your context). This lets you check to make sure all of your notes get formatted and injected as you expect they should.
 
+## How to Install
+The easiest way to install this script is to download the zip file, then upload that file in the scripts section of one of your scenarios. Scripts can currently only be added to your own scenarios, while you are editing or creating them.
+
+You can also copy the text from `shared` to the `shared` tab of your scripts, and so on for `inputModifier` and `contextModifier`. 
+
 ## How to Create a Note
 Notes can be placed anywhere (prompt, input text, memory, author's note, WI), but always follow the following pattern:
 
