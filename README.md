@@ -1,7 +1,7 @@
 # Notes++
 This script allows you to create custom blocks of text (notes) anywhere, and specify both how they are formatted and where they will be inserted into the context. This allows you to change how far back your memory and WI get placed (instead of them always defaulting to the end of the context). It allows you to split your memory and WI, where parts are placed in different locations; it allows you to create editor's notes (more on these later); it allows you to tie author's notes or editor's notes to WI.
 
-**Notes++** also adds a single command, `/lmi` which when input shows you the last full context sent to the AI (including the hidden text that gets included, such as Memory and WIs). This lets you check to make sure all of your notes get formatted and injected as you expect they should.
+**Notes++** also adds a single command, `/lmi` which when input shows you the last full context sent to the AI. This shows you the text injected by this script, as well as other text that is normally hidden, such as Author's notes, Memory, and WI. This lets you check to make sure all of your notes get formatted and injected as you expect they should.
 
 ## How to Install
 The easiest way to install this script is to download the zip file, then upload that file in the scripts section of the edit/create screen of one of your scenarios. Scripts can currently only be added to your own scenarios, while you are editing or creating them.
