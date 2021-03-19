@@ -32,6 +32,8 @@ If the *#* is 0, the note will be injected directly after (in front of) the most
 
 If the *#* is 1 or more, the note will be injected directly behind *#* lines in the context.
 
+Notes with # > 0 will only be injected if # or more lines of text exist for them to be placed behind.
+
 
 Everything after the *:* and before the closing *}* is the *text*.
 
