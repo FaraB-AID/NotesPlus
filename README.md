@@ -13,31 +13,29 @@ Notes can be placed anywhere (prompt, input text, memory, author's note, WI), bu
 
 Notes must be enclosed with curly brackets `{ }`
 
-A format code is then placed directly inside the brackets, followed by a number that determines how many lines back in the context the note will be placed, and a colon. Here are the currently available format codes and the formatting they produce (where *text* represents where the main text of your note will be placed):
+An optional duration *#* gets placed first. If included, the note will only be injected in the context until the action count equals the action count where the note was first recorded plus the duration (so with a duration of 3, a note will be present for the current action and the next two actions). If the duration *#* is left out or 0, the note will get injected in the context indefinitely (so long as the note remains). For instance, a duration 0 note put in a WI will still stop getting injected once the WI stops getting loaded into the context (and thus its note stops being read).
 
-`{an#: text}` gets formatted then injected as `[Author's note: text]`
+A format code is then placed after the duration *#*, followed by a mandatory location *#* that determines how many lines back in the context the note will be placed, and a colon. For unformatted notes with a duration, separate the duration *#* and the location *#* with a `-`. 
 
-`{en#: text}` gets formatted then injected as `[Editor's note: text]`
+If the location *#* is 0, the note will be injected directly after (in front of) the most recent user text. If the location *#* is 1 or more, the note will be injected directly behind *#* lines in the context.
 
-`{ens#: text}` gets formatted then injected as `[Editor's note: this scene:< text>.]`
+Here are the currently available format codes and the formatting they produce (where *text* represents where the main text of your note will be placed):
+
+`{an#: text}` or `{#an#: text}` gets formatted then injected as `[Author's note: text]`
+
+`{en#: text}` or `{#en#: text}` gets formatted then injected as `[Editor's note: text]`
+
+`{ens#: text}` or `{#ens#: text}` gets formatted then injected as `[Editor's note: this scene:< text>.]`
 
 If no format code is included, the note will be left unformatted.
 
-`{#: text}` does not get formatted, then gets injected as `text`
+`{#: text}` or `{#-#: text}` does not get formatted, then gets injected as `text`
 
-
-The *#* after the format code must be included. It can be any integer greater than or equal to 0. 
-
-If the *#* is 0, the note will be injected directly after (in front of) the most recent user text.
-
-If the *#* is 1 or more, the note will be injected directly behind *#* lines in the context.
-
-Notes with # > 0 will only be injected if # or more lines of text exist for them to be placed behind.
-
-
-Everything after the *:* and before the closing *}* is the *text*.
+**Additional info:**
 
 If *text* is empty or only spaces, the note will be removed from the context but not injected back in (keeping blank notes from taking up characters and throwing off the AI).
+
+Notes with location *#* > 0 will only be injected if *#* or more lines of text exist for them to be placed behind.
 
 If multiple notes request injection at the same line, they will be injected by formatting code in the following order: `{an#: text}`, `{#: text}`, `{en#: text}`, `{ens#: text}`. If multiple notes with the same formatting are injected, they will be injected in the order they are encountered in the context (typically: WI, memory, prompt/previous inputs, A/N, input text).
 
