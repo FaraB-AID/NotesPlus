@@ -12,6 +12,7 @@ You can also copy the text from `shared` to the `shared` tab of scripts, and so 
 Notes can be placed anywhere (prompt, input text, memory, author's note, WI), but must have the following pattern:
 
 **Enclose notes with curly brackets** `{ }`
+
 **Put a note code on the left side of the brackets**, constructed as such:
 
 **An optional duration *#* gets placed first.** 
