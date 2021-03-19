@@ -37,6 +37,7 @@ If no format is included, the note will be left unformatted.
 `{#: text}` or `{#-#: text}` does not get formatted, then gets injected as `text`
 
 **Additional info:**
+
 For unformatted notes with a duration, separate the duration *#* and the location *#* with a `-`. 
 
 If *text* is empty or only spaces, the note will be removed from the context but not injected back in (keeping blank notes from taking up characters and throwing off the AI).
