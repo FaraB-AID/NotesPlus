@@ -11,24 +11,24 @@ You can also copy the text from `shared` to the `shared` tab of scripts, and so 
 ## How to Create a Note
 Notes can be placed anywhere (prompt, input text, memory, author's note, WI), but must have the following pattern:
 
-Notes must be enclosed with curly brackets `{ }`
-Put a note code on the left side of the brackets, constructed as such:
+**Enclose notes with curly brackets** `{ }`
+**Put a note code on the left side of the brackets**, constructed as such:
 
-An optional duration *#* gets placed first. 
+**An optional duration *#* gets placed first.** 
 
 If included, the note will only be injected in the context while the action count is less than the action count where the note was first recorded plus the duration (so with a duration of 3, a note will be present for the current action and the next two actions). 
 
 If the duration *#* is left out or 0, the note will get injected in the context indefinitely (so long as the note remains). For instance, a duration 0 note put in a WI will still stop getting injected once the WI stops getting loaded into the context (and thus its note stops being read). Notes with a duration *#* will *also* stop getting injected if the note is removed before their duration ends.
 
-Next place an optional format shorthand, comprised of a few letters, indicating how the note will be formated. See the formats below.
+**Next place an optional format shorthand**, comprised of a few letters, indicating how the note will be formated. See the formats below.
 
-Next place a mandatory location *#* that determines how many lines back in the context the note will be placed
+**Next place a mandatory location *#*** that determines how many lines back in the context the note will be placed
 
 If the location *#* is 0, the note will be injected directly after (in front of) the most recent user text. If the location *#* is 1 or more, the note will be injected directly behind *#* lines in the context.
 
-Finally place a mandatory colon `:` to separate the note code from the text.
+**Finally place a mandatory colon `:`** to separate the note code from the text.
 
-Here are the formats (included in note codes, where *text* represents the main text of your note):
+**Formats** (included in note codes, where *text* represents the main text of your note):
 
 `{an#: text}` or `{#an#: text}` gets formatted then injected as `[Author's note: text]`
 
@@ -39,6 +39,7 @@ Here are the formats (included in note codes, where *text* represents the main t
 If no format is included, the note will be left unformatted.
 
 `{#: text}` or `{#-#: text}` does not get formatted, then gets injected as `text`
+
 
 **Additional info:**
 
