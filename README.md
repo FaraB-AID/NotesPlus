@@ -1,5 +1,5 @@
 # Notes++
-This script allows you to create custom blocks of text (notes) anywhere, and specify both how they are formatted and where they will be inserted into the context. This allows you to change how far back your memory and WI get placed (instead of them always defaulting to the end of the context). It allows you to split your memory and WI, where parts are placed in different locations; it allows you to create editor's notes (more on these later); it allows you to tie author's notes or editor's notes to WI.
+This script allows you to create custom blocks of text (notes) anywhere, and specify how they are formatted, where they will be inserted into the context, and how long they will last. This allows you to change how far back your memory and WI get placed (instead of them always defaulting to the end of the context). It allows you to split your memory and WI, where parts are placed in different locations; it allows you to create editor's notes (more on these later); it allows you to tie author's notes or editor's notes to WI, and optionally allows those notes to only persist for a set number of actions after the WI is first called.
 
 **Notes++** also adds a single command, `/lmi` which when input shows you the last full context sent to the AI. This shows you the text injected by this script, as well as other text that is normally hidden, such as Author's notes, Memory, and WI. This lets you check to make sure all of your notes get formatted and injected as you expect they should.
 
@@ -12,14 +12,19 @@ You can also copy the text from `shared` to the `shared` tab of scripts, and so 
 Notes can be placed anywhere (prompt, input text, memory, author's note, WI), but always follow the following pattern:
 
 Notes must be enclosed with curly brackets `{ }`
+Put a note code on the left side of the brackets, constructed as such:
 
-An optional duration *#* gets placed first. If included, the note will only be injected in the context until the action count equals the action count where the note was first recorded plus the duration (so with a duration of 3, a note will be present for the current action and the next two actions). If the duration *#* is left out or 0, the note will get injected in the context indefinitely (so long as the note remains). For instance, a duration 0 note put in a WI will still stop getting injected once the WI stops getting loaded into the context (and thus its note stops being read).
+An optional duration *#* gets placed first. If included, the note will only be injected in the context while the action count is less than the action count where the note was first recorded plus the duration (so with a duration of 3, a note will be present for the current action and the next two actions). If the duration *#* is left out or 0, the note will get injected in the context indefinitely (so long as the note remains). For instance, a duration 0 note put in a WI will still stop getting injected once the WI stops getting loaded into the context (and thus its note stops being read). Notes with a duration *#* will *also* stop getting injected if the note is removed before their duration ends.
 
-A format code is then placed after the duration *#*, followed by a mandatory location *#* that determines how many lines back in the context the note will be placed, and a colon. For unformatted notes with a duration, separate the duration *#* and the location *#* with a `-`. 
+Next place an optional format shorthand, comprised of a few letters, indicating how the note will be formated. See the formats below.
+
+Next place a mandatory location *#* that determines how many lines back in the context the note will be placed
 
 If the location *#* is 0, the note will be injected directly after (in front of) the most recent user text. If the location *#* is 1 or more, the note will be injected directly behind *#* lines in the context.
 
-Here are the currently available format codes and the formatting they produce (where *text* represents where the main text of your note will be placed):
+Finally place a mandatory colon `:` to separate the note code from the text.
+
+Here are the formats (included in note codes, where *text* represents the main text of your note):
 
 `{an#: text}` or `{#an#: text}` gets formatted then injected as `[Author's note: text]`
 
@@ -27,11 +32,12 @@ Here are the currently available format codes and the formatting they produce (w
 
 `{ens#: text}` or `{#ens#: text}` gets formatted then injected as `[Editor's note: this scene:< text>.]`
 
-If no format code is included, the note will be left unformatted.
+If no format is included, the note will be left unformatted.
 
 `{#: text}` or `{#-#: text}` does not get formatted, then gets injected as `text`
 
 **Additional info:**
+For unformatted notes with a duration, separate the duration *#* and the location *#* with a `-`. 
 
 If *text* is empty or only spaces, the note will be removed from the context but not injected back in (keeping blank notes from taking up characters and throwing off the AI).
 
@@ -59,7 +65,7 @@ You must go on a quest to rescue Master Bell.
 ```
 You and Master Bell have lived in the tower alone for nearly a decade. 
 However, last week, Master Bell brought home a kitten named Fluffles.
-{3: [ Fluffles is an evil kitten who lurks around the tower.]}
+{3-3: [ Fluffles is an evil kitten who lurks around the tower.]}
 ```
 
 **Author's Note**
@@ -71,10 +77,10 @@ However, last week, Master Bell brought home a kitten named Fluffles.
 Keys: tower, kitten, fluffles
 Entry:
 Fluffles is actually a literal demon pretending to be a cat. Fluffles has secretly killed Master Bell.
-{ens0: Fluffles will leap from the shadows and attack you}
+{2ens0: Fluffles will leap from the shadows and attack you}
 ```
 
-**Result / Context / LMI**
+**Result / Context / LMI -- Action Count: 2**
 ```
 Fluffles is actually a literal demon pretending to be a cat. Fluffles has secretly killed Master Bell.
 You and Master Bell have lived in the tower alone for nearly a decade. 
@@ -89,6 +95,40 @@ You must go on a quest to rescue Master Bell.
 [Editor's note: describe the tower layout]
 You cautiously look around the tower. 
 [Editor's note: this scene:< Fluffles will leap from the shadows and attack you>.]
+```
+
+**Result / Context / LMI -- Action Count: 3**
+```
+Fluffles is actually a literal demon pretending to be a cat. Fluffles has secretly killed Master Bell.
+You and Master Bell have lived in the tower alone for nearly a decade. 
+However, last week, Master Bell brought home a kitten named Fluffles.
+You are Gordita, a wizard's apprentice.
+[Author's note: scene: fantasy, wizard, tower; genre: murder mystery]
+You are an animate taco, who flies around on clouds of cheese puffs.
+[ Fluffles is an evil kitten who lurks around the tower.]
+Your wizard, Master Bell, has gone missing from the tower of Tel Nacho.
+[Author's note: this is a story about cheese and betrayal.]
+You must go on a quest to rescue Master Bell.
+[Editor's note: describe the tower layout]
+You cautiously look around the tower. 
+The shadows rustle menacingly. You turn around, but are too late. Fluffles leaps at you!
+```
+
+**Result / Context / LMI -- Action Count: 4**
+```
+Fluffles is actually a literal demon pretending to be a cat. Fluffles has secretly killed Master Bell.
+You and Master Bell have lived in the tower alone for nearly a decade. 
+However, last week, Master Bell brought home a kitten named Fluffles.
+You are Gordita, a wizard's apprentice.
+[Author's note: scene: fantasy, wizard, tower; genre: murder mystery]
+You are an animate taco, who flies around on clouds of cheese puffs.
+Your wizard, Master Bell, has gone missing from the tower of Tel Nacho.
+[Author's note: this is a story about cheese and betrayal.]
+You must go on a quest to rescue Master Bell.
+[Editor's note: describe the tower layout]
+You cautiously look around the tower. 
+The shadows rustle menacingly. You turn around, but are too late. Fluffles leaps at you!
+You blast Fluffles away from you with the power of cheesy goodness.
 ```
 
 ## Editor's Notes
