@@ -14,7 +14,11 @@ Notes can be placed anywhere (prompt, input text, memory, author's note, WI), bu
 Notes must be enclosed with curly brackets `{ }`
 Put a note code on the left side of the brackets, constructed as such:
 
-An optional duration *#* gets placed first. If included, the note will only be injected in the context while the action count is less than the action count where the note was first recorded plus the duration (so with a duration of 3, a note will be present for the current action and the next two actions). If the duration *#* is left out or 0, the note will get injected in the context indefinitely (so long as the note remains). For instance, a duration 0 note put in a WI will still stop getting injected once the WI stops getting loaded into the context (and thus its note stops being read). Notes with a duration *#* will *also* stop getting injected if the note is removed before their duration ends.
+An optional duration *#* gets placed first. 
+
+If included, the note will only be injected in the context while the action count is less than the action count where the note was first recorded plus the duration (so with a duration of 3, a note will be present for the current action and the next two actions). 
+
+If the duration *#* is left out or 0, the note will get injected in the context indefinitely (so long as the note remains). For instance, a duration 0 note put in a WI will still stop getting injected once the WI stops getting loaded into the context (and thus its note stops being read). Notes with a duration *#* will *also* stop getting injected if the note is removed before their duration ends.
 
 Next place an optional format shorthand, comprised of a few letters, indicating how the note will be formated. See the formats below.
 
