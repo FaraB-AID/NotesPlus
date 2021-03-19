@@ -47,6 +47,7 @@ You must go on a quest to rescue Master Bell.
 ```
 
 **Input Text**
+
 `You cautiously look around the tower. {en1: describe the tower layout}`
 
 **Memory**
