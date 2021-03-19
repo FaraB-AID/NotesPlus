@@ -14,7 +14,7 @@ A format code is then placed directly inside the brackets, followed by a number 
 
 `{en#: text}` gets formatted then injected as `[Editor's note: text]`
 
-`{ens#: text}` gets formatted then injected as `[Editor's note:< text>.]`
+`{ens#: text}` gets formatted then injected as `[Editor's note: this scene:< text>.]`
 
 If no format code is included, the note will be left unformatted.
 
@@ -32,6 +32,8 @@ Everything after the *:* and before the closing *}* is the *text*.
 
 If *text* is empty or only spaces, the note will be removed from the context but not injected back in (keeping blank notes from taking up characters and throwing off the AI).
 
+If multiple notes request injection at the same line, they will be injected by formatting code in the following order: `{an#: text}`, `{#: text}`, `{en#: text}`, `{ens#: text}`. If multiple notes with the same formatting are injected, they will be injected in the order they are encountered in the context (typically: WI, memory, prompt/previous inputs, A/N, input text).
+
 ## Example
 The following are an example prompt, input text, memory, author's note, and WI, as well as the context they produce (which would be shown with /lmi).
 
@@ -40,10 +42,44 @@ The following are an example prompt, input text, memory, author's note, and WI, 
 You are Gordita, a wizard's apprentice.
 You are an animate taco, who flies around on clouds of cheese puffs.
 Your wizard, Master Bell, has gone missing from the tower of Tel Nacho.
-You must go on a quest to rescue Master Bell.`
+You must go on a quest to rescue Master Bell.
+{an2: this is a story about cheese and betrayal.}
 ```
 
+**Input Text**
+`You cautiously look around the tower. {en1: describe the tower layout}`
 
+**Memory**
+```
+You and Master Bell have lived in the tower alone for nearly a decade. However, last week, Master Bell brought home a kitten named Fluffles.
+{3: [ Fluffles is an evil kitten who lurks around the tower.]}
+```
 
+**Author's Note**
+`{an4: scene: fantasy, wizard, tower; genre: murder mystery}`
+
+**WI**
+```
+Keys: tower, kitten, fluffles
+Entry:
+Fluffles is actually a literal demon pretending to be a cat. Fluffles has secretly killed Master Bell.
+{ens0: Fluffles will leap from the shadows and attack you}
+```
+
+**Result / Context / LMI**
+```
+Fluffles is actually a literal demon pretending to be a cat. Fluffles has secretly killed Master Bell.
+You and Master Bell have lived in the tower alone for nearly a decade. However, last week, Master Bell brought home a kitten named Fluffles.
+You are Gordita, a wizard's apprentice.
+[Author's note: scene: fantasy, wizard, tower; genre: murder mystery]
+You are an animate taco, who flies around on clouds of cheese puffs.
+[ Fluffles is an evil kitten who lurks around the tower.]
+Your wizard, Master Bell, has gone missing from the tower of Tel Nacho.
+[Author's note: this is a story about cheese and betrayal.]
+You must go on a quest to rescue Master Bell.
+[Editor's note: describe the tower layout]
+You cautiously look around the tower. 
+[Editor's note: this scene:< Fluffles will leap from the shadows and attack you>.]
+```
 
 
