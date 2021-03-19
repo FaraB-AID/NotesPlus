@@ -51,11 +51,13 @@ You must go on a quest to rescue Master Bell.
 
 **Memory**
 ```
-You and Master Bell have lived in the tower alone for nearly a decade. However, last week, Master Bell brought home a kitten named Fluffles.
+You and Master Bell have lived in the tower alone for nearly a decade. 
+However, last week, Master Bell brought home a kitten named Fluffles.
 {3: [ Fluffles is an evil kitten who lurks around the tower.]}
 ```
 
 **Author's Note**
+
 `{an4: scene: fantasy, wizard, tower; genre: murder mystery}`
 
 **WI**
@@ -69,7 +71,8 @@ Fluffles is actually a literal demon pretending to be a cat. Fluffles has secret
 **Result / Context / LMI**
 ```
 Fluffles is actually a literal demon pretending to be a cat. Fluffles has secretly killed Master Bell.
-You and Master Bell have lived in the tower alone for nearly a decade. However, last week, Master Bell brought home a kitten named Fluffles.
+You and Master Bell have lived in the tower alone for nearly a decade. 
+However, last week, Master Bell brought home a kitten named Fluffles.
 You are Gordita, a wizard's apprentice.
 [Author's note: scene: fantasy, wizard, tower; genre: murder mystery]
 You are an animate taco, who flies around on clouds of cheese puffs.
