@@ -46,6 +46,8 @@ If no format is included, the note will be left unformatted.
 
 For unformatted notes with a duration, separate the duration *#* and the location *#* with a `-`. 
 
+The *text* of the note can contain any special characters and line breaks. The only characters you cannot include within the *text* of a note is curly brackets `{ }`. The only curly brackets in a note should be the ones enclosing it.
+
 If *text* is empty or only spaces, the note will be removed from the context but not injected back in (keeping blank notes from taking up characters and throwing off the AI).
 
 Notes with location *#* > 0 will only be injected if *#* or more lines of text exist for them to be placed behind.
