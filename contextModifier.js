@@ -15,6 +15,11 @@ const modifier = (text) => {
     state.lmiToggle = false
     stop = true; return{ stop }
   }
+  
+  //this prevents the AI from running if the AI is toggled off
+  if(state.noteAIOff){
+    stop = true; return{ stop }
+  }
 
   const finalText = lines.join("\n")
   return { text: finalText }
