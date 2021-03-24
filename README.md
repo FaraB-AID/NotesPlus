@@ -31,7 +31,8 @@ If the location *#* is 0, the note will be injected directly after (in front of)
 
 **Finally place a mandatory colon `:`** to separate the note code from the text.
 
-###### Formats
+**Formats**
+
 Formats are the letters included in note codes; each gets injected differently. *text* represents the main text of your note.
 
 `{an#: text}` or `{#an#: text}` or ` {+#an#: text}` or ` {#+#an#: text}` gets formatted then injected as `[Author's note: text]`
@@ -55,7 +56,9 @@ If *text* is empty or only spaces, the note will be removed from the context but
 Notes with location *#* > 0 will only be injected if *#* or more lines of text exist for them to be placed behind.
 
 If multiple notes request injection at the same line, they will be injected by formatting code in the following order: `{an#: text}`, `{#: text}`, `{en#: text}`, `{ens#: text}`. If multiple notes with the same formatting are injected, they will be injected in the order they are encountered in the context (typically: WI, memory, prompt/previous inputs, A/N, input text).
-###### Special Formats
+
+**Special Formats**
+
 Special formats directly modify the input or output, and do not get injected into the context. They follow much of the rules for regular formats, but do not use a location *#*. The *text* in special notes does not get formatted, and so they behave much like unformatted notes. The format code for special formats instead determines where the text gets placed.
 
 **Input Override:** `{io: text}` or `{#io: text}` or `{#+#io: text}` replaces inputs with *text*.
