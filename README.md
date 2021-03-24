@@ -59,17 +59,17 @@ If multiple notes request injection at the same line, they will be injected by f
 ## Special Formats
 Special formats directly modify the input or output, and do not get injected into the context. They follow much of the rules for regular formats, but do not use a location *#*. The *text* in special notes does not get formatted, and so they behave much like unformatted notes. The format code for special formats instead determines where the text gets placed.
 
-**Input Override:** `{io: text}` or `{#io: text}` or `{#+#io: text}` replaces inputs with *text*.
+**Input Override:** `{io: text}` or `{#io: text}` or `{#+#io: text}` replaces inputs with `text`
 
-**Input Prefix:** `{ip: text}` or `{#ip: text}` or `{#+#ip: text}` places *text* into input, just before the regular input.
+**Input Prefix:** `{ip: text}` or `{#ip: text}` or `{#+#ip: text}` places `text` into input, just before the regular input.
 
-**Input Suffix:** `{is: text}` or `{#is: text}` or `{#+#is: text}` places *text* into input, just after the regular input.
+**Input Suffix:** `{is: text}` or `{#is: text}` or `{#+#is: text}` places `text` into input, just after the regular input.
 
-**Output Override:** `{oo: text}` or `{#oo: text}` or `{#+#oo: text}` replaces outputs with *text*.
+**Output Override:** `{oo: text}` or `{#oo: text}` or `{#+#oo: text}` replaces outputs with `text`
 
-**Output Prefix:** `{op: text}` or `{#op: text}` or `{#+#op: text}` places *text* into output, just before the regular output.
+**Output Prefix:** `{op: text}` or `{#op: text}` or `{#+#op: text}` places `text` into output, just before the regular output.
 
-**Output Suffix:** `{os: text}` or `{#os: text}` or `{#+#os: text}` places *text* into output, just after the regular output.
+**Output Suffix:** `{os: text}` or `{#os: text}` or `{#+#os: text}` places `text` into output, just after the regular output.
 
 **Additional Info**
 
