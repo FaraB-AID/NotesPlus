@@ -47,6 +47,8 @@ If no format is included, the note will be left unformatted.
 
 **Additional Info**
 
+Notes with a duration of 1 use a special *once* timing that ensures they are used exactly once, at the earliest opportunity.
+
 For unformatted notes with a duration and/or delay, separate the duration/delay *#* and the location *#* with a `,`. 
 
 The *text* of the note can contain any special characters and line breaks. The only characters you cannot include within the *text* of a note is curly brackets `{ }`. The only curly brackets in a note should be the ones enclosing it.
