@@ -29,18 +29,23 @@ function noteRecordCheck(noteType){
 function noteRecorder(noteType){
   tempLine = Number(noteType[i][5]) ? Number(noteType[i][5]) : 0
   tempObject = {note: tempNote, line: tempLine}
-  if ((noteType[i][1] || noteType[i][3]) && !state.notesRecordMatch){
-    tempBeginAt = Number(noteType[i][3]) ? Number(noteType[i][3]) + info.actionCount : info.actionCount
-    tempEndBy = Number(noteType[i][1]) ? tempBeginAt + Number(noteType[i][1]) : 1000000
+  tempDuration = Number(noteType[i][1])
+  tempDelay = Number(noteType[i][3])
+  if ((tempDuration  || tempDelay) && !state.notesRecordMatch){
+    tempBeginAt = tempDelay ? tempDelay + info.actionCount : info.actionCount
+    tempEndBy = tempDuration  ? tempBeginAt + tempDuration : 1000000    
     tempRecord = {record: noteType[i][0], beginAt: tempBeginAt, endBy: tempEndBy}
+    if(tempDuration == 1){
+      tempRecord.once = true
+    }
   }
-  if (noteType[i][1] || noteType[i][3]){
+  if (tempDuration || tempDelay){
     tempObject.record = noteType[i][0]
   }
   if(noteType[i][6]){
     state.notes.push(tempObject)
   }
-  if((noteType[i][1] || noteType[i][3]) && noteType[i][6] && !state.notesRecordMatch){
+  if((tempDuration || tempDelay) && noteType[i][6] && !state.notesRecordMatch){
     state.notesRecord.push(tempRecord)
   }
   state.notesRecordMatch = false
@@ -48,18 +53,23 @@ function noteRecorder(noteType){
 
 function noteRecorderSpecial(noteType, stateName){
   tempObject = {note: noteType[i][6]}
-  if ((noteType[i][1] || noteType[i][3]) && !state.notesRecordMatch){ 
-    tempBeginAt = Number(noteType[i][3]) ? Number(noteType[i][3]) + info.actionCount : info.actionCount
-    tempEndBy = Number(noteType[i][1]) ? tempBeginAt + Number(noteType[i][1]) : 1000000
+  tempDuration = Number(noteType[i][1])
+  tempDelay = Number(noteType[i][3])
+  if ((tempDuration || tempDelay) && !state.notesRecordMatch){ 
+    tempBeginAt = tempDelay ? tempDelay + info.actionCount : info.actionCount
+    tempEndBy = tempDuration ? tempBeginAt + tempDuration : 1000000
     tempRecord = {record: noteType[i][0], beginAt: tempBeginAt, endBy: tempEndBy}
+    if(tempDuration == 1){
+      tempRecord.once = 1
+    }
   }
-  if (noteType[i][1] || noteType[i][3]){
+  if (tempDuration || tempDelay){
     tempObject.record = noteType[i][0]
   }
   if(noteType[i][6]){
     state[stateName].push(tempObject)
   }
-  if((noteType[i][1] || noteType[i][3]) && noteType[i][6] && !state.notesRecordMatch){
+  if((tempDuration || tempDelay) && noteType[i][6] && !state.notesRecordMatch){
     state.notesRecord.push(tempRecord)
   }
   state.notesRecordMatch = false
@@ -213,29 +223,33 @@ function noteTextParser (){
 
 //This injects the reformatted Note++ objects into the context
 function noteTextInjector (){
+  lines.reverse()
   for (i = 0; i < state.notes.length; i++){
     if (state.notes[i].record){
       for (ii = 0; ii < state.notesRecord.length; ii++){
         if(state.notes[i].record == state.notesRecord[ii].record){
-          if(info.actionCount < state.notesRecord[ii].endBy && info.actionCount >= state.notesRecord[ii].beginAt){
-            if(state.notes[i].line > 0){
+          if(info.actionCount < state.notesRecord[ii].endBy && info.actionCount >= state.notesRecord[ii].beginAt && !state.notesRecord[ii].once){
+            if(lines.length > (state.notes[i].line - 1)){
+              lines[state.notes[i].line] += `\n${state.notes[i].note}`
+            }
+          } else if (state.notesRecord[ii].once){
+            if (info.actionCount <= state.notesRecord[ii].beginAt && state.notesRecord[ii].once == 2) {
+              state.notesRecord[ii].once = 1
+            }
+            if (info.actionCount >= state.notesRecord[ii].beginAt && state.notesRecord[ii].once == 1){
+              state.notesRecord[ii].once = 2
               if(lines.length > (state.notes[i].line - 1)){
-                lines.splice(-(state.notes[i].line), 0, state.notes[i].note)
-              } 
-            } else if (state.notes[i].line == 0) {
-              lines.push(state.notes[i].note)
+                lines[state.notes[i].line] += `\n${state.notes[i].note}`
+              }
             }
           }
         }
       }
-    } else if (state.notes[i].line > 0){
-        if(lines.length > (state.notes[i].line - 1)){
-          lines.splice(-(state.notes[i].line), 0, state.notes[i].note)
-        } 
-    } else if (state.notes[i].line == 0) {
-      lines.push(state.notes[i].note)
+    } else if (lines.length > (state.notes[i].line - 1)){
+      lines[state.notes[i].line] += `\n${state.notes[i].note}`
     }
   }
+  lines.reverse()
   //this records the last model input for the /lmi command
   state.lmi = lines.join("\n").slice(-(info.maxChars))
 }
@@ -249,8 +263,16 @@ function noteInputSpecial(){
     if (state.notesIO[i].record){
       for (ii = 0; ii < state.notesRecord.length; ii++){
         if(state.notesIO[i].record == state.notesRecord[ii].record){
-          if((info.actionCount - 1) < state.notesRecord[ii].endBy && (info.actionCount - 1) >= state.notesRecord[ii].beginAt){
+          if((info.actionCount - 1) < state.notesRecord[ii].endBy && (info.actionCount - 1) >= state.notesRecord[ii].beginAt && !state.notesRecord[ii].once){
             notesTextTemp += state.notesIO[i].note 
+          } else if (state.notesRecord[ii].once){
+            if ((info.actionCount - 1) <= state.notesRecord[ii].beginAt && state.notesRecord[ii].once == 2) {
+              state.notesRecord[ii].once = 1
+            }
+            if ((info.actionCount - 1) >= state.notesRecord[ii].beginAt && state.notesRecord[ii].once == 1){
+              state.notesRecord[ii].once = 2
+              notesTextTemp += state.notesIO[i].note 
+            }
           }
         }
       }
@@ -265,8 +287,16 @@ function noteInputSpecial(){
     if (state.notesIP[i].record){
       for (ii = 0; ii < state.notesRecord.length; ii++){
         if(state.notesIP[i].record == state.notesRecord[ii].record){
-          if((info.actionCount - 1) < state.notesRecord[ii].endBy && (info.actionCount - 1) >= state.notesRecord[ii].beginAt){
+          if((info.actionCount - 1) < state.notesRecord[ii].endBy && (info.actionCount - 1) >= state.notesRecord[ii].beginAt && !state.notesRecord[ii].once){
             notesPrefixTemp += state.notesIP[i].note
+          } else if (state.notesRecord[ii].once){
+            if ((info.actionCount - 1) <= state.notesRecord[ii].beginAt && state.notesRecord[ii].once == 2) {
+              state.notesRecord[ii].once = 1
+            }
+            if ((info.actionCount - 1) >= state.notesRecord[ii].beginAt && state.notesRecord[ii].once == 1){
+              state.notesRecord[ii].once = 2
+              notesPrefixTemp += state.notesIP[i].note 
+            }
           }
         }
       }
@@ -279,8 +309,16 @@ function noteInputSpecial(){
     if (state.notesIS[i].record){
       for (ii = 0; ii < state.notesRecord.length; ii++){
         if(state.notesIS[i].record == state.notesRecord[ii].record){
-          if((info.actionCount - 1) < state.notesRecord[ii].endBy && (info.actionCount - 1) >= state.notesRecord[ii].beginAt){
+          if((info.actionCount - 1) < state.notesRecord[ii].endBy && (info.actionCount - 1) >= state.notesRecord[ii].beginAt && !state.notesRecord[ii].once){
             notesSuffixTemp += state.notesIS[i].note
+          } else if (state.notesRecord[ii].once){
+            if ((info.actionCount - 1) <= state.notesRecord[ii].beginAt && state.notesRecord[ii].once == 2) {
+              state.notesRecord[ii].once = 1
+            }
+            if ((info.actionCount - 1) >= state.notesRecord[ii].beginAt && state.notesRecord[ii].once == 1){
+              state.notesRecord[ii].once = 2
+              notesSuffixTemp += state.notesIS[i].note
+            }
           }
         }
       }
@@ -300,8 +338,16 @@ function noteOutputSpecial(){
     if (state.notesOO[i].record){
       for (ii = 0; ii < state.notesRecord.length; ii++){
         if(state.notesOO[i].record == state.notesRecord[ii].record){
-          if(info.actionCount < state.notesRecord[ii].endBy && info.actionCount >= state.notesRecord[ii].beginAt){
+          if(info.actionCount < state.notesRecord[ii].endBy && info.actionCount >= state.notesRecord[ii].beginAt && !state.notesRecord[ii].once){
             notesTextTemp += state.notesOO[i].note 
+          } else if (state.notesRecord[ii].once){
+            if (info.actionCount <= state.notesRecord[ii].beginAt && state.notesRecord[ii].once == 2) {
+              state.notesRecord[ii].once = 1
+            }
+            if (info.actionCount >= state.notesRecord[ii].beginAt && state.notesRecord[ii].once == 1){
+              state.notesRecord[ii].once = 2
+              notesTextTemp += state.notesOO[i].note 
+            }
           }
         }
       }
@@ -316,8 +362,16 @@ function noteOutputSpecial(){
     if (state.notesOP[i].record){
       for (ii = 0; ii < state.notesRecord.length; ii++){
         if(state.notesOP[i].record == state.notesRecord[ii].record){
-          if(info.actionCount < state.notesRecord[ii].endBy && info.actionCount >= state.notesRecord[ii].beginAt){
+          if(info.actionCount < state.notesRecord[ii].endBy && info.actionCount >= state.notesRecord[ii].beginAt && !state.notesRecord[ii].once){
             notesPrefixTemp += state.notesOP[i].note
+          } else if (state.notesRecord[ii].once){
+            if (info.actionCount <= state.notesRecord[ii].beginAt && state.notesRecord[ii].once == 2) {
+              state.notesRecord[ii].once = 1
+            }
+            if (info.actionCount >= state.notesRecord[ii].beginAt && state.notesRecord[ii].once == 1){
+              state.notesRecord[ii].once = 2
+              notesPrefixTemp += state.notesOP[i].note
+            }
           }
         }
       }
@@ -330,8 +384,16 @@ function noteOutputSpecial(){
     if (state.notesOS[i].record){
       for (ii = 0; ii < state.notesRecord.length; ii++){
         if(state.notesOS[i].record == state.notesRecord[ii].record){
-          if(info.actionCount < state.notesRecord[ii].endBy && info.actionCount >= state.notesRecord[ii].beginAt){
+          if(info.actionCount < state.notesRecord[ii].endBy && info.actionCount >= state.notesRecord[ii].beginAt && !state.notesRecord[ii].once){
             notesSuffixTemp += state.notesOS[i].note
+          } else if (state.notesRecord[ii].once){
+            if (info.actionCount <= state.notesRecord[ii].beginAt && state.notesRecord[ii].once == 2) {
+              state.notesRecord[ii].once = 1
+            }
+            if (info.actionCount >= state.notesRecord[ii].beginAt && state.notesRecord[ii].once == 1){
+              state.notesRecord[ii].once = 2
+              notesSuffixTemp += state.notesOS[i].note
+            }
           }
         }
       }
