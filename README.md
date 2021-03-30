@@ -73,6 +73,14 @@ Special formats directly modify the input or output, and do not get injected int
 
 **Output Suffix:** `{os: text}` or `{#os: text}` or `{#+#os: text}` places `text` into output, just after the regular output.
 
+**Message:** `{m: text}` or `{#m: text}` or `{#+#m: text}` places `text` into state.message, displaying a message at the bottom of the screen.
+
+Multiple message special format notes get added together into one state.message, separated by newlines.
+
+**Display:** `{d#:  key: value: color}` or `{#d#: key: value: color}` or `{#+#d#: key: value: color}` makes a state.displayStats display at the top of the screen, with text of `key: value` displayed in `color`. 
+
+For Display, the `#` following `d` determines its location in the display, which can have up to 9 lines, each with separate notes. Lower numbers are higher up in the display; 0 is the highest; the `#` is optional, and if left out it will be counted as 0. If multiple notes use the same display line `#`, they will overwrite one-another. 
+
 **Additional Info**
 
 When using multiple special formats that affect an output or an input, first the in/output override will apply, replacing the original in/output; then, the prefix will apply, adding the prefix text to the beginning of the overriden in/output; then the suffix will apply, adding the suffix text to the end of the overriden in/output.
