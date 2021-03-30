@@ -1,11 +1,13 @@
 //this function finds, parses, and extracts Note++ notes
 noteTextParser()
+noteMessageInjector()
+noteDisplayInjector()
 
 const lines = text.split("\n")
 
 const modifier = (text) => {
   //this function injects reformatted Note++ notes into context
-  noteTextInjector ()
+  noteTextInjector()
 
   //this prevents submission to the AI if a command is used
 if(state.contextStop){
