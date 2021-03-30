@@ -8,6 +8,8 @@ if(!state.notesInitialize){
   state.notesIP = []
   state.notesOS = []
   state.notesIS = []
+  state.notesM = []
+  state.notesD = []
   state.notesInitialize = true
 }
 
@@ -74,6 +76,29 @@ function noteRecorderSpecial(noteType, stateName){
   }
   state.notesRecordMatch = false
 }
+function noteRecorderDisplay(noteType, stateName){
+  tempDisplayObject = {line: Number(noteType[i][5]), key: noteType[i][6], value: noteType[i][7], color: noteType[i][8]}
+  tempDuration = Number(noteType[i][1])
+  tempDelay = Number(noteType[i][3])
+  if ((tempDuration || tempDelay) && !state.notesRecordMatch){ 
+    tempBeginAt = tempDelay ? tempDelay + info.actionCount : info.actionCount
+    tempEndBy = tempDuration ? tempBeginAt + tempDuration : 1000000
+    tempRecord = {record: noteType[i][0], beginAt: tempBeginAt, endBy: tempEndBy}
+    if(tempDuration == 1){
+      tempRecord.once = 1
+    }
+  }
+  if (tempDuration || tempDelay){
+    tempDisplayObject.record = noteType[i][0]
+  }
+
+  state[stateName].push(tempDisplayObject)
+
+  if((tempDuration || tempDelay) && noteType[i][6] && !state.notesRecordMatch){
+    state.notesRecord.push(tempRecord)
+  }
+  state.notesRecordMatch = false
+}
 //this function finds, parses, and extracts Note++ notes
 function noteTextParser (){
   state.notes = []
@@ -83,6 +108,8 @@ function noteTextParser (){
   state.notesIP = []
   state.notesOS = []
   state.notesIS = []
+  state.notesM = []
+  state.notesD = []
 
 
   //this finds and caches Notes++ formatted Notes in text
@@ -96,7 +123,8 @@ function noteTextParser (){
   inputPrefixNotes = [...text.matchAll(/\{(\d*)(\+?(\d*))(i\/?p)(:)([^\{\}]*)\}\n?/gi)]
   outputSuffixNotes = [...text.matchAll(/\{(\d*)(\+?(\d*))(o\/?s)(:)([^\{\}]*)\}\n?/gi)]
   inputSuffixNotes = [...text.matchAll(/\{(\d*)(\+?(\d*))(i\/?s)(:)([^\{\}]*)\}\n?/gi)]
-
+  messageNotes = [...text.matchAll(/\{(\d*)(\+?(\d*))(m)(:)([^\{\}]*)\}\n?/gi)]
+  displayNotes = [...text.matchAll(/\{(\d*)(\+?(\d*))(d)(\d?):\s*([^\{\}:]*):\s*([^\{\}:]*):?\s*([^\{\}]*)\}\n?/gi)]
   //this finds and caches Notes++ formatted Notes in {notes} WIs
   for(i = 0; i < worldInfo.length; i++){
     if(/\{notes\}/i.test(worldInfo[i].keys)){
@@ -120,6 +148,10 @@ function noteTextParser (){
       outputSuffixNotes = outputSuffixNotes.concat(outputSuffixNotesTemp)
       inputSuffixNotesTemp = [...worldInfo[i].entry.matchAll(/\{(\d*)(\+?(\d*))(i\/?s)(:)([^\{\}]*)\}\n?/gi)]
       inputSuffixNotes = inputSuffixNotes.concat(inputSuffixNotesTemp)
+      messageNotesTemp = [...worldInfo[i].entry.matchAll(/\{(\d*)(\+?(\d*))(m)(:)([^\{\}]*)\}\n?/gi)]
+      messageNotes = messageNotes.concat(messageNotesTemp)
+      displayNotesTemp = [...worldInfo[i].entry.matchAll(/\{(\d*)(\+?(\d*))(d)(\d?):\s*([^\{\}:]*):\s*([^\{\}:]*):?\s*([^\{\}]*)\}\n?/gi)]
+      displayNotes = displayNotes.concat(displayNotesTemp)
     }
   }
   //this removes Note++ formatted text from the context
@@ -133,6 +165,8 @@ function noteTextParser (){
   noteTextRemover (inputPrefixNotes)
   noteTextRemover (outputSuffixNotes)
   noteTextRemover (inputSuffixNotes)
+  noteTextRemover (messageNotes)
+  noteTextRemover (displayNotes)
 
   //this reformats the cached Note++ text into an array of 
   //objects ready to be injected into the context later
@@ -215,6 +249,17 @@ function noteTextParser (){
       inputSuffixNotes[i][6] = ""
     }
     noteRecorderSpecial(inputSuffixNotes, "notesIS")
+  }
+  for(i = 0; i < messageNotes.length; i++){
+    noteRecordCheck(messageNotes)
+    if(/\{\d*\+?\d*m:\s+\}\n?/i.test(messageNotes[i][0])){
+      messageNotes[i][6] = ""
+    }
+    noteRecorderSpecial(messageNotes, "notesM")
+  }
+  for(i = 0; i < displayNotes.length; i++){
+    noteRecordCheck(displayNotes)
+    noteRecorderDisplay(displayNotes, "notesD")
   }
   //this removes any empty author's notes
   //which can generate if the A/N field is used for Note++ notes
@@ -402,6 +447,92 @@ function noteOutputSpecial(){
     }
   }
   text = text + notesSuffixTemp
+}
+
+function noteMessageInjector(){
+  state.message = ""
+  for (i = 0; i < state.notesM.length; i++){
+    if (state.notesM[i].record){
+      for (ii = 0; ii < state.notesRecord.length; ii++){
+        if(state.notesM[i].record == state.notesRecord[ii].record){
+          if(info.actionCount < state.notesRecord[ii].endBy && info.actionCount >= state.notesRecord[ii].beginAt && !state.notesRecord[ii].once){
+            if(i === 0){
+              state.message = state.notesM[i].note
+            } else if (i > 0){
+              state.message += `\n${state.notesM[i].note}`
+            }
+          } else if (state.notesRecord[ii].once){
+            if (info.actionCount <= state.notesRecord[ii].beginAt && state.notesRecord[ii].once == 2) {
+              state.notesRecord[ii].once = 1
+            }
+            if (info.actionCount >= state.notesRecord[ii].beginAt && state.notesRecord[ii].once == 1){
+              state.notesRecord[ii].once = 2
+              if(i === 0){
+                state.message = state.notesM[i].note
+              } else if (i > 0){
+                state.message += `\n${state.notesM[i].note}`
+              }
+            }
+          }
+        }
+      }
+    } else if(i === 0){
+      state.message = state.notesM[i].note
+    } else if (i > 0){
+      state.message += `\n${state.notesM[i].note}`
+    }
+  }
+}
+
+function noteDisplayInjector(){
+  state.displayStats = []
+  tempDisplay = {0:{},1:{},2:{},3:{},4:{},5:{},6:{},7:{},8:{},9:{}}
+  for (i = 0; i < state.notesD.length; i++){
+    tempDisplayLine = Number(state.notesD[i].line) ? Number(state.notesD[i].line) : 0
+    if (state.notesD[i].record){
+      for (ii = 0; ii < state.notesRecord.length; ii++){
+        if(state.notesD[i].record == state.notesRecord[ii].record){
+          if(info.actionCount < state.notesRecord[ii].endBy && info.actionCount >= state.notesRecord[ii].beginAt && !state.notesRecord[ii].once){
+            if (tempDisplayLine === 0){
+              tempDisplay[tempDisplayLine].key = state.notesD[i].key
+            } else {
+              tempDisplay[tempDisplayLine].key = `\n${state.notesD[i].key}`
+            }
+            tempDisplay[tempDisplayLine].value = state.notesD[i].value
+            tempDisplay[tempDisplayLine].color = state.notesD[i].color ? state.notesD[i].color : ""
+          } else if (state.notesRecord[ii].once){
+            if (info.actionCount <= state.notesRecord[ii].beginAt && state.notesRecord[ii].once == 2) {
+              state.notesRecord[ii].once = 1
+            }
+            if (info.actionCount >= state.notesRecord[ii].beginAt && state.notesRecord[ii].once == 1){
+              state.notesRecord[ii].once = 2
+              if (tempDisplayLine === 0){
+                tempDisplay[tempDisplayLine].key = state.notesD[i].key
+              } else {
+                tempDisplay[tempDisplayLine].key = `\n${state.notesD[i].key}`
+              }
+              tempDisplay[tempDisplayLine].value = state.notesD[i].value
+              tempDisplay[tempDisplayLine].color = state.notesD[i].color ? state.notesD[i].color : ""
+            }
+          }
+        }
+      }
+    } else {
+      if (tempDisplayLine === 0){
+        tempDisplay[tempDisplayLine].key = state.notesD[i].key
+      } else {
+        tempDisplay[tempDisplayLine].key = `\n${state.notesD[i].key}`
+      }
+      tempDisplay[tempDisplayLine].value = state.notesD[i].value
+      tempDisplay[tempDisplayLine].color = state.notesD[i].color ? state.notesD[i].color : ""
+    }
+  }
+  var x
+  for (x in tempDisplay){
+    if (tempDisplay[x].key && tempDisplay[x].value){
+      state.displayStats.push(tempDisplay[x])
+    }
+  }
 }
 
 function notesCommands(){
