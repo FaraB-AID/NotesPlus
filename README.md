@@ -1,5 +1,5 @@
 # Notes++
-This script allows you to create custom blocks of text (notes) anywhere, and specify how they are formatted, where they will be inserted into the context, and how long they will last. This allows you to change how far back your memory and WI get placed (instead of them always defaulting to the end of the context). It allows you to split your memory and WI, where parts are placed in different locations; it allows you to create editor's notes (more on these later); it allows you to tie author's notes or editor's notes to WI, and optionally allows those notes to only persist for a set number of actions after the WI is first called.
+This script allows you to create custom blocks of text (notes) anywhere, and specify how they are formatted, where they will be inserted into the context, and how long they will last. This allows you to change how far back your memory and WI get placed (instead of them always defaulting to the end of the context). It allows you to split your memory and WI, such that parts are placed in different locations; it allows you to create editor's notes (more on these later); it allows you to tie author's notes or editor's notes to WI, and optionally allows those notes to only persist for a set number of actions after the WI is first called. Pronoun Swapper is included in Notes++. See more at the bottom of the readme.
 
 ## How to Install
 The easiest way to install this script is to download the zip file, then upload that file in the scripts section of the edit/create screen of one of your scenarios. Scripts can currently only be added to your own scenarios, while you are editing or creating them.
@@ -191,6 +191,50 @@ The shadows rustle menacingly. You turn around, but are too late. Fluffles leaps
 You blast Fluffles away from you with the power of cheesy goodness.
 ```
 
+
+
 ## Editor's Notes
 Editor's notes are basically super focused Author's notes that can be used to narrowly focus the AI's attention. For a more detailed rundown on how to use them, see the google doc about them here:
 https://docs.google.com/document/d/12HDSN4wm9hMF4nRGWtkuT_RUkwx2Gqr2qhNSOORbSMk/edit?usp=sharing
+
+## Pronoun Swapper
+This script is bundled into Notes++. It is also available in a standalone form here:
+https://github.com/FaraB-AID/Misc-Scripts/tree/main/Single-Scripts
+
+This script has the scenario user fill in a placeholder that describes a gender or pronoun, then substitutes pronoun replacement markers made in the prompt with pronouns of the appropriate gender. This lets you holistically refer to a person of chosable gender in the prompt with pronouns.
+
+**Placeholder**
+
+This script requires you to use a prompt placeholder, which the user will fill in with a response signifying a gender for later pronoun use. The placeholder must be formatted as such:
+
+`{ppl:${placeholder text}}`
+
+The *placeholder text* can be anything you'd normally put as a placeholder, such as `Is your romantic partner a man, woman, or nonbinary?` or `Choose a pronoun for your customer: he/she/they`
+
+The placeholder as formatted above will be removed from the final prompt in its entirety (both the bracketing and the text the user responds with). This allows you to put the placeholder anywhere in the prompt for maximum flexibility (as placeholders gets presented to the user in the order they are encountered).
+
+The script will scan the text the player inputs into the placeholder and determine pronoun type based on their entry.
+
+`she|her|hers|herself|feminine|female|fem|woman` in the placeholder result in fem pronouns being used.
+
+`he|him|his|himself|masculine|male|masc|man` in the placeholder result in masc pronouns being used.
+
+`they|them|their|theirs|themselves|neuter|neutral|neutroi|nonbinary|other` or a lack of detectible gender signifiers in the placeholder result in neutral pronouns being used.
+
+
+**Replacement Markers**
+There are five replacement markers, corresponding to the five types of pronouns in English (refer to the chart below for reference). Put replacement markers into your prompt, where pronouns of the appropriate gender (as determined by the placeholder above) should get placed. If the first letter of a replacement marker is capitalized, the replacement pronoun's first letter will also be captialized.
+
+**Note:** Replacement markers will only work in the prompt, not memory/AN/WI; and the script only runs once, on the prompt (initial input).
+
+`{sp}` gets replaced with `she|he|they`
+
+`{op}` gets replaced with `him|her|them`
+
+`{pa}` gets replaced with `his|her|theirs`
+
+`{pp}` gets replaced with `his|hers|theirs`
+
+`{rp}` gets replaced with `himself|herself|themselves`
+
+![Pronoun Chart](https://i.ytimg.com/vi/h_GnSOIfWf4/maxresdefault.jpg)
