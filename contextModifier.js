@@ -1,5 +1,8 @@
+//this function tracks output count
+noteTimeKeeper()
 //this function finds, parses, and extracts Note++ notes
 noteTextParser()
+//these functions inject message and display special format notes
 noteMessageInjector()
 noteDisplayInjector()
 
