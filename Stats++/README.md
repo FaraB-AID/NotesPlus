@@ -1,40 +1,47 @@
-## Stats++ Framework
-This Notes++-based script allows for Stats notes that converts numeric stat sheets into backend catnip sheets. Usable for multiple characters at once; can be adjusted dynamically (though the script does not automatically do so, yet).
+# Stats++
+Stats++ is a script for creating RPG-style character sheets with numeric values. These character sheets then get converted into Cat<nip> 3 character sheets and injected into the context 3 lines back (where Author's Notes go by default). Advanced featured of the script also allow you to define conditions by which character stats can increase or decrease through gameplay.
+
+This script uses Notes++ as a codebase, and so contains all Notes++ features. Technicially, character sheets are a highly specialized Note format. Therefore, Stats++ sheets are usable for multiple characters at once, and will never have their raw text appear in the context.
 
 Stats++ is based on and includes Notes++. Some knowledge of Notes++ may be useful for using this script.
 
-https://github.com/FaraB-AID/NotesPlus
+https://github.com/FaraB-AID/NotesPlus/tree/main/Notes%2B%2B
 
-To create a Stats note, place a Note formatted as follows anywhere a Note would normally be placed (memory, WI, {notes} WI, etc.):
 
+## Stat Sheets
+To create a Stat Sheet, format a block of text as described below. The text must be either in memory if you want the stat sheet permanently included in context, or in a WI if you want the stat sheet to only be included in context when that WI would be.  As a second option for a permanent Stat Sheet, put the sheet in a WI with `{notes}` as its key. It will operate in the same way as a Stat Sheet placed in memory.   
+
+**Stat Sheet Formatting:**
 ```
 {name stats: 
 stat: #
 stat: #
 stat: #}
 ```
-Importantly, the Stats note must be bracketed with `{}`. 
+➤ Stat Sheets must be encapsulated (bracketed) with `{}`. 
 
-The first word inside those brackets, `name`, will be the name stats will be attributed to. The name can be an NPC name like `Jenny`, or can refer to the PC by using `you` or `I` (if you're playing first person).
+➤ The first term inside the Stat Sheet after the bracket must be the *name* of the character the sheet is for. This can be multiple words. The *name* determines who the stats are attributed to, and can be for an NPC, like `Queen Madras`, or can refer to the PC by using `you` or `I` (if you're playing first person).
 
-`stats:` must always be included. This indicates to the script that the bracketed text is a Stats note.
+➤ `stats:` must always be included after the *name*, verbatim. This indicates to the script that the bracketed text is a Stat Sheet.
 
-Each `stat: #` should be replaced with the name of a valid stat and a number between 1-5. The `:` separating stat name and number must remain. Stats notes can have any number of stats, though it's recommended to use as few as needed to not overwhelm the AI with information. Stats don't need to be separated from eachother in the Note. Inlcude as few or as many linebreaks, spaces, commas, etc, in the Note as needed to make it readable and usable for you. The following format is harder to read than the first, but conveys the same information to the script:
+➤ For each instance of `stat: #`, *stat* should be replaced with the name of a valid stat and *#* with a number between 1-5. The *:* separating stat name and number must remain. Stat Sheets can have any number of stats, though it's recommended to use as few as needed. 
+
+➤ Stats don't need to each be on their own line. They can be formatted in a variety of ways, and in fact don't need to be separated at all. Linebreaks, spaces, commas, etc, can be included in the Stat Sheet to separate stats to make it more human-readable, however. The following format is harder to read than the first, but conveys the same information to the script:
 
 ```
 {name stats:stat:#stat:#stat:#}
 ```
 
-Here is a list of the stats the script recognizes, grouped by category. For best results, use no more than 3 stats from each category.
+Here is a list of the stats the script recognizes, grouped by category. See details on their Cat<nip> conversions at the end of the readme. For best results, use 3 or fewer stats from each category.
 
 ###### General Stats
-Charisma – Constitution – Corruption – Lust – Selfishness
+Demonic - Angelic – Feline – Canine – Lupine – Vulpine – Equine – Masculinity – Femininity –  Corruption – Lust
 ###### Body Stats
-Strength – Dexterity – Height – Breast Size – Penis Size – Ass Size
+Strength – Dexterity – Constitution – Fitness – Attractiveness – Height – Breast Size – Penis Size – Ass Size
 ###### Mental Stats
-Intelligence – Wisdom – Willpower – Fear – Sense of Self – Stability – Confidence
+Intelligence – Wisdom – Charsima – Willpower – Fear – Sense of Self – Stability – Confidence – Selfishness
 ###### Trait Stats
-Sadism – Masochism – Pain Sensitivity – Pleasure Sensitivity – Elasticity
+Sadism – Masochism – Kinkiness – Pain Sensitivity – Pleasure Sensitivity – Elasticity
 
 Here is a practical example of a Stats note:
 
@@ -45,3 +52,80 @@ breast size: 2
 willpower: 5, confidence: 4
 sadism: 5}
 ```
+
+## Automatic Stat Progression
+
+## Stat Details
+Stats get converted into a Cat<nip> sheet by including terms in that sheet which correspond to the stat's numeric value. Stats from different category get put on different Cat<nip> lines. Terms for each stat are presented from lowest (1) to highest (5).
+  
+###### General Stats
+**[ name summary:< stat term>/< stat term>.]**
+Demonic: \[blank\] – demon blooded – half demon – demon – archdemon
+Angelic: \[blank\] – angel blooded – half angel – angel – archangel
+Feline: \[blank\] – cat ears – feline features – neko – anthro cat
+Canine: \[blank\] – dog ears – canine features – inu – anthro dog
+Lupine: \[blank\] – wolf ears – lupine features – okami – anthro wolf
+Vulpine: \[blank\] – fox ears – vulpine features – kitsune – anthro fox
+Equine: \[blank\] – horse tail – equine features – uma – anthro horse
+Masculinity: soft – androgynous – masculine – masculine& macho – hypermasculine
+Femininty: butch – androgynous – feminine – high fem – hyperfeminine
+Corruption: pure – chaste – modest – lecherous – debauched
+Lust: celibate – chaste – normal sex drive – lustful – sex addict
+
+###### Body Stats
+**[ name body:< stat term>/< stat term>.]**
+
+**Strength:** pathetically weak – weak – fit – brawny – incredibly brawny
+
+**Dexterity:** complete klutz – uncoordinated – deft – nimble& graceful – impossibly nimble
+
+**Constitution:** sickly& unwell – frail – healthy – robust – pinnacle of health
+
+**Fitness:** horribly unfit – unfit – fit – well fit& shapely – paragon of fitness
+
+**Attractiveness:** hideous – unattractive – average looking – hot& attractive – irresistibly attractive
+
+**Height:** height≡ miniscule& 6\" tall – height≡ tiny& 2' tall – height≡ average – height≡ giant& 9' tall – height≡ gargiantuan& 20' tall
+
+**Breast Size:** breasts≡ flat-chested – beasts≡ small – breasts≡ average – breasts≡ voluptuous – breasts≡ unwieldy& massive
+
+**Penis Size:** penis≡ micropenis – penis≡ small – penis≡ average – penis≡ massive& thick – penis≡ arm-sized – penis≡ leg-sized& gargantuon
+
+**Ass Size:** ass≡ flat – ass≡ tight – ass≡ round – ass≡ large& curvy – ass≡ massive& bulbous  
+
+###### Mental Stats
+**[ name mental:< stat term>/< stat term>.]**
+
+**Intelligence:** vegetative – stupid – clever – very smart – genius
+
+**Wisdom:** irrational – clueless – rational – wise – nearly prescient
+
+**Charisma:** tactless – boring – likable – charismatic – irresistible charm
+
+**Willpower:** mindlessly obedient – pliant – willful – steadfast – unbreakable will
+
+**Fear:** completely fearless – unafraid – trepidatious – fearful – terrified
+
+**Sense of Self:** one with the world – indistinct – self-aware – narcicistic – solipsistic
+
+**Stability:** shattered mind – disturbed – mentally stable – serene – transcendently calm
+
+**Confidence:** nervous wreck – timid – self-assured – confident – absolutely confident
+
+**Selfishness:** selfless – generous – self-interested – selfish – egoist& egotistical
+
+###### Trait Stats
+**[ name traits:< stat term>/< stat term>.]**
+
+**Sadism:** sadism≡ gentle – sadism≡ demanding – sadism≡ sadistic – sadism≡ cruel – sadism≡ extreme& cruel
+
+**Masochism:** masochism≡ pain averse – masochism≡ demure – masochism≡ masochistic – masochism≡ painslut – masochism≡ extreme& painslut
+
+**Kinkiness:** kinkiness≡ vanilla – kinkiness≡ intrigued – kinkiness≡ kinky – kinkiness≡ fetishist – kinkiness≡ extreme kinkster
+
+**Pain Sensitivity:** pain≡ numbed – pain≡ dulled – pain≡ receptive – pain≡ sensitive – pain≡ hypersensitive
+
+**Pleasure Sensitivity:** pleasure≡ numbed – pleasure≡ dulled – pleasure≡ receptive – pleasure≡ sensitive – pleasure≡ hypersensitive
+
+**Elasticity:** elasticity≡ rigid – elasticity≡ taut – elasticity≡ malleable – elasticity≡ very stretchy – elasticity≡ completely elastic
+
