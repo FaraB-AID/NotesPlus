@@ -56,6 +56,8 @@ sadism: 5}
 ## Automatic Stat Progression
 Stats++ can also be used to automatically increase or decrease stats based on an experience system. Experience is gained when the output contains terms from a user-defined list of keys.
 
+**Automatic Stat Progression only works if the Stat Sheet is in a WI.** This is because Memory is not editable by scripts. If you want to set up a progression-enabled permanent Stat Sheet that functions like it would in Memory, create a WI with `{notes}` as the key. The script will always read Stat Sheets from it.  
+
 To set up stat progression, include one or more line formatted as such in your Stats Sheet:
 
 ```stat+|- experience: #/#, keys: key, key, key```
