@@ -60,17 +60,28 @@ Stats get converted into a Cat<nip> sheet by including terms in that sheet which
   
 ###### General Stats
 **[ name summary:< stat term>/< stat term>.]**
-Demonic: \[blank\] – demon blooded – half demon – demon – archdemon
-Angelic: \[blank\] – angel blooded – half angel – angel – archangel
-Feline: \[blank\] – cat ears – feline features – neko – anthro cat
-Canine: \[blank\] – dog ears – canine features – inu – anthro dog
-Lupine: \[blank\] – wolf ears – lupine features – okami – anthro wolf
-Vulpine: \[blank\] – fox ears – vulpine features – kitsune – anthro fox
-Equine: \[blank\] – horse tail – equine features – uma – anthro horse
-Masculinity: soft – androgynous – masculine – masculine& macho – hypermasculine
-Femininty: butch – androgynous – feminine – high fem – hyperfeminine
-Corruption: pure – chaste – modest – lecherous – debauched
-Lust: celibate – chaste – normal sex drive – lustful – sex addict
+
+**Demonic:** \[blank\] – demon blooded – half demon – demon – archdemon
+
+**Angelic:** \[blank\] – angel blooded – half angel – angel – archangel
+
+**Feline:** \[blank\] – cat ears – feline features – neko – anthro cat
+
+**Canine:** \[blank\] – dog ears – canine features – inu – anthro dog
+
+**Lupine:** \[blank\] – wolf ears – lupine features – okami – anthro wolf
+
+**Vulpine:** \[blank\] – fox ears – vulpine features – kitsune – anthro fox
+
+**Equine:** \[blank\] – horse tail – equine features – uma – anthro horse
+
+**Masculinity:** soft – androgynous – masculine – masculine& macho – hypermasculine
+
+**Femininty:** butch – androgynous – feminine – high fem – hyperfeminine
+
+**Corruption:** pure – chaste – modest – lecherous – debauched
+
+**Lust:** celibate – chaste – normal sex drive – lustful – sex addict
 
 ###### Body Stats
 **[ name body:< stat term>/< stat term>.]**
