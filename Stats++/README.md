@@ -57,7 +57,9 @@ sadism: 5}
 Stats++ can also be used to automatically increase or decrease stats based on an experience system. Experience is gained when the output contains terms from a user-defined list of keys.
 
 To set up stat progression, include one or more line formatted as such in your Stats Sheet:
+
 ```stat+/- experience: #/#, keys: key, key, key```
+
 ➤ For each progression-enabled stat, it must start on its own new line.
 
 ➤ The first word(s) on the new line, *stat*, should be the name of the stat. Such as `strength`, `lust`, or `sense of self`.
