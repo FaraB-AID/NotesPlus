@@ -58,7 +58,7 @@ Stats++ can also be used to automatically increase or decrease stats based on an
 
 To set up stat progression, include one or more line formatted as such in your Stats Sheet:
 
-```stat+/- experience: #/#, keys: key, key, key```
+```stat+|- experience: #/#, keys: key, key, key```
 
 ➤ For each progression-enabled stat, it must start on its own new line.
 
