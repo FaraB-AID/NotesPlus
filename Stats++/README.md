@@ -56,6 +56,37 @@ sadism: 5}
 ## Automatic Stat Progression
 Stats++ can also be used to automatically increase or decrease stats based on an experience system. Experience is gained when the output contains terms from a user-defined list of keys.
 
+To set up stat progression, include one or more line formatted as such in your Stats Sheet:
+```stat+/- experience: #/#, keys: key, key, key```
+➤ For each progression-enabled stat, it must start on its own new line.
+
+➤ The first word(s) on the new line, *stat*, should be the name of the stat. Such as `strength`, `lust`, or `sense of self`.
+
+➤ Immediately after the *stat* should be a `+` or `-`, indicating whether the stat will increase or decrease when experience fills.
+
+➤ `experience:` must be included verbatim.
+
+➤ `#/#` must be two integers separated by a `/`. The first `#`, current experience, should be less than the second `#`, experience required, such as: `0/5` or `4/12`. 
+
+➤ When current experience matches or exceeds required experience, current experience will reset to 0 and the associated stat will accordingly increase or decrease. Stats cannot increase above 5 or decrease below 1.
+
+➤ Each progression-enabled stat requires some number of keys. These are terms separated from `#/#` and one-another by commas. They can be multiple words. One experience point is gained whenever the script matches one or more keys (case insensitve) in the text of an output.
+
+➤ The `keys:` term itself is optional. Keys can directly follow `#/#`, or have the `keys:` term intervening (for the sake of readability). 
+
+
+**Example full Stat Sheet with progression:**
+
+```{Queen Madras stats:
+corruption: 4, lust: 4, selfishness: 5
+breast size: 2
+willpower: 5, confidence: 4
+sadism: 5
+lust+ experience: 0/5, keys: desire, lust, dripping wet, need you
+willpower- experience: 4/10, doubt, fear, hesitate, reconsider, flinch, stumble
+breast size+ experience: 0/1, enlargus breasticus}
+```
+
 ## Stat Details
 Stats get converted into a Cat<nip> sheet by including terms in that sheet which correspond to the stat's numeric value. Stats from different category get put on different Cat<nip> lines. Terms for each stat are presented from lowest (1) to highest (5).
   
