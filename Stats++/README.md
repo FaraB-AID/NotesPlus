@@ -54,12 +54,13 @@ sadism: 5}
 ```
 
 ## Automatic Stat Progression
+Stats++ can also be used to automatically increase or decrease stats based on an experience system. Experience is gained when the output contains terms from a user-defined list of keys.
 
 ## Stat Details
 Stats get converted into a Cat<nip> sheet by including terms in that sheet which correspond to the stat's numeric value. Stats from different category get put on different Cat<nip> lines. Terms for each stat are presented from lowest (1) to highest (5).
   
 ###### General Stats
-**[ name summary:< stat term>/< stat term>.]**
+**[ name summary:< stat term>/< stat term>/< stat term>.]**
 
 **Demonic:** \[blank\] – demon blooded – half demon – demon – archdemon
 
@@ -84,7 +85,7 @@ Stats get converted into a Cat<nip> sheet by including terms in that sheet which
 **Lust:** celibate – chaste – normal sex drive – lustful – sex addict
 
 ###### Body Stats
-**[ name body:< stat term>/< stat term>.]**
+**[ name body:< stat term>/< stat term>/< stat term>.]**
 
 **Strength:** pathetically weak – weak – fit – brawny – incredibly brawny
 
@@ -105,7 +106,7 @@ Stats get converted into a Cat<nip> sheet by including terms in that sheet which
 **Ass Size:** ass≡ flat – ass≡ tight – ass≡ round – ass≡ large& curvy – ass≡ massive& bulbous  
 
 ###### Mental Stats
-**[ name mental:< stat term>/< stat term>.]**
+**[ name mental:< stat term>/< stat term>/< stat term>.]**
 
 **Intelligence:** vegetative – stupid – clever – very smart – genius
 
@@ -126,7 +127,7 @@ Stats get converted into a Cat<nip> sheet by including terms in that sheet which
 **Selfishness:** selfless – generous – self-interested – selfish – egoist& egotistical
 
 ###### Trait Stats
-**[ name traits:< stat term>/< stat term>.]**
+**[ name traits:< stat term>/< stat term>/< stat term>.]**
 
 **Sadism:** sadism≡ gentle – sadism≡ demanding – sadism≡ sadistic – sadism≡ cruel – sadism≡ extreme& cruel
 
